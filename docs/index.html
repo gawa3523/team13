@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clicker Game</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: 'Arial', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
 
-    #score {
-      font-size: 24px;
-      margin-top: 20px;
-    }
+        #score {
+            font-size: 24px;
+            margin-top: 20px;
+        }
 
-    #clickButton {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-  </style>
+        #clickButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
 
-  <h1>Clicker Game</h1>
-  <p>Click the button to increase your score!</p>
+    <h1>Clicker Game</h1>
+    <p>Click the button to increase your score!</p>
 
-  <button id="clickButton" onclick="increaseScore()">Click me!</button>
-  <p id="score">Score: <span id="currentScore">0</span></p>
+    <button id="clickButton" onclick="increaseScore()">Click me!</button>
+    <p id="score">Score: <span id="currentScore">0</span></p>
 
-  <script>
-    // JavaScriptでスコアを管理する変数
-    let score = 0;
+    <script>
+        // JavaScriptでスコアを管理する変数
+        let score = 0;
 
-    // クリック時にスコアを増加させる関数
-    function increaseScore() {
-      score++;
-      document.getElementById('currentScore').innerText = score;
-    }
-  </script>
+        // クリック時にスコアを増加させる関数
+        function increaseScore() {
+            score++;
+            document.getElementById('currentScore').innerText = score;
+        }
+    </script>
 
 </body>
+
 </html>
