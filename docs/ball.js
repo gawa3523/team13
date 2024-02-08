@@ -72,8 +72,10 @@ $('#add-ball').click(function () {
     // 新しいボールを作成
     var shape = Math.floor(Math.random() * 3);
     // ランダムなx座標とy座標を生成
-    var x = Math.random() * window.innerWidth;
-    var y = Math.random() * window.innerHeight;
+    var x = 100;
+    var y = 100;
+    // x = Math.random() * window.innerWidth;
+    // y = Math.random() * window.innerHeight;
 
     var newShape;
     switch (shape) {
