@@ -54,14 +54,16 @@
 
   <button id="clickButton" onclick="increaseScore()">Click me!</button>
   <button id="scoreCost" onclick="scoreCost()">10ポイント消費</button>
-  <p id="score">Score: <span id="currentScore">0</span></p>
+  <p id="score">Score: <span id="currentScore">0　　</span>図形の数: <span id="kaza">0</span></p>
+
 
   <script>
     // JavaScriptでスコアを管理する変数
     let score = 0;
     // 加算するスコア
     let point = 1;
-
+    // wowボタンが押された回数を管理する変数
+    let kazu = 0;
     // クリック時にスコアを増加させる関数
     function increaseScore() {
       score += point;
@@ -91,6 +93,8 @@
         document.getElementById('currentScore').innerText = score; // ここでスコアを表示
         document.getElementById('add-ball').disabled = score < 100;
       }
+      kazu++;
+      document.getElementById('kaza').innerText = kazu; // ここでスコアを表示
     }
   </script>
   <div id="canvas-area"></div>
