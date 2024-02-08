@@ -101,7 +101,7 @@
     </div>
 
     <script>
-        var clear = localStorage.getItem("clear") || 0;
+        var clear = parseInt(localStorage.getItem("clear")) || 0;
         var canvas = document.getElementById("gameCanvas");
         var ctx = canvas.getContext("2d");
 
@@ -187,7 +187,7 @@
             ctx.closePath();
         }
 
-        var score = localStorage.getItem("score") || 0;;
+        var score = parseInt(localStorage.getItem("score")) || 0;;
 
         function drawScore() {
             ctx.font = "bold 16px Arial";
