@@ -1,72 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker Game</title>
-    <style>
-        body {
-            text-align: center;
-            font-family: 'Arial', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clicker Game</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+    }
 
-        #score {
-            font-size: 24px;
-            margin-top: 20px;
-        }
+    #score {
+      font-size: 24px;
+      margin-top: 20px;
+    }
 
-        #clickButton {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    #clickButton {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-        #scoreCost {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            display: none;
-        }
-    </style>
+    #scoreCost {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      /* display: none; */
+    }
+
+    #canvas-area {
+      position: absolute;
+      top: 70%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
 </head>
+
 
 <body>
 
-    <h1>Clicker Game</h1>
-    <p>Click the button to increase your score!</p>
+  <h1>Clicker Game</h1>
+  <p>Click the button to increase your score!</p>
 
-    <button id="clickButton" onclick="increaseScore()">Click me!</button>
-    <button id="scoreCost" onclick="scoreCost()">スコアを消費</button>
-    <p id="score">Score: <span id="currentScore">0</span></p>
+  <button id="clickButton" onclick="increaseScore()">Click me!</button>
+  <button id="scoreCost" onclick="scoreCost()">10ポイント消費</button>
+  <p id="score">Score: <span id="currentScore">0</span></p>
 
-    <script>
-        // JavaScriptでスコアを管理する変数
-        let score = 0;
-        // 加算するスコア
-        let point = 1;
+  <script>
+    // JavaScriptでスコアを管理する変数
+    let score = 0;
+    // 加算するスコア
+    let point = 1;
 
-        // クリック時にスコアを増加させる関数
-        function increaseScore() {
-            score += point;
-            if (score >= 10) {
-                document.getElementById('scoreCost').style.display = 'block';
-            }
-            else {
-                document.getElementById('scoreCost').style.display = 'none';
-            }
-            document.getElementById('currentScore').innerText = score;
+    // クリック時にスコアを増加させる関数
+    function increaseScore() {
+      score += point;
+      document.getElementById('currentScore').innerText = score; // ここでスコアを表示
+      document.getElementById('add-ball').disabled = score < 100;
+      document.getElementById('scoreCost').innerText = 10 * point + "ポイント消費";
+    }
+
+    function scoreCost() {
+      // スコアが10 * point以上ならスコアを減らす
+      if (score >= 10 * point) {
+        score -= 10 * point;
+        point++;
+        document.getElementById('currentScore').innerText = score; // ここでスコアを表示
+        document.getElementById('scoreCost').innerText = 10 * point + "ポイント消費";
+        if (score < 10) {
+          //document.getElementById('scoreCost').style.display = 'none';
         }
-
-        function scoreCost() {
-            score -= 10;
-            point++;
-            document.getElementById('currentScore').innerText = score;
-            if (score < 10) {
-                document.getElementById('scoreCost').style.display = 'none';
-            }
-        }
-    </script>
+        // スコアが100以上ならwowボタンを有効化、それ以外は無効化
+        document.getElementById('add-ball').disabled = score < 100;
+      }
+    }
+    // wowボタンをクリック時にスコアを減らす関数
+    function decreaseScore() {
+      if (score >= 100) {
+        score -= 100;
+        document.getElementById('currentScore').innerText = score; // ここでスコアを表示
+        document.getElementById('add-ball').disabled = score < 100;
+      }
+    }
+  </script>
+  <div id="canvas-area"></div>
+  <button id="add-ball" onclick="decreaseScore()">wow</button>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="./matter.js"></script>
+  <!-- 以下、各例のjsファイルをscriptタグで読み込む -->
+  <script src="./ball.js"></script>
+  <script>
+    window.onload = function () {
+      document.getElementById('add-ball').disabled = true;
+    }
+  </script>
 
 </body>
 
