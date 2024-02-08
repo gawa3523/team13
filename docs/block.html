@@ -74,6 +74,15 @@
         #moveButton:hover {
             background-color: #00B677;
         }
+
+        #instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -315,6 +324,12 @@
         });
 
     </script>
+    <div id="instructions">
+        <p>ブロックを壊してスコアを稼ぎましょう　ゲームはクリアするたびにボールが少しはやくなります</p>
+        <p>左右の矢印キーでパドルを動かし、ボールを反射させましょう</p>
+        <p>アイテムを購入するにはボタンをクリックしてくださいスコアを消費します</p>
+        <p>アイテムは上から順番にランダムでブロックを5個消す、パドルを少し伸ばす、ボールが5秒間貫通するです</p>
+    </div>
 </body>
 
 </html>
