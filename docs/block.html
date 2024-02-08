@@ -55,11 +55,31 @@
         #startButton:hover {
             background-color: #0077B6;
         }
+
+        #moveButton {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #00DD95;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #moveButton:hover {
+            background-color: #00B677;
+        }
     </style>
 </head>
 
 <body>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <a id="moveButton" href="index.html">wowクリッカーへ移動！！！</a><br>
     <button id="startButton">Start Game</button>
 
     <div id="shop">
