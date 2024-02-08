@@ -94,7 +94,7 @@ $('#add-ball').click(function () {
     Composite.add(engine.world, newShape);
 
     var message = "";
-    var randomNum = Math.floor(Math.random() * 10) + 1;
+    var randomNum = Math.floor(Math.random() * 50) + 1;
     console.log(randomNum);
 
     if (randomNum == 7) {
