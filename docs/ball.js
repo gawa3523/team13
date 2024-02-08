@@ -93,6 +93,17 @@ $('#add-ball').click(function () {
     // 新しいボールをエンジンの世界に追加
     Composite.add(engine.world, newShape);
 
+    var message = "";
+    var randomNum = Math.floor(Math.random() * 10) + 1;
+    console.log(randomNum);
+
+    if (randomNum == 7) {
+        message = "Pow!";
+    }
+    else {
+        message = "wow";
+    }
+
     // エンジンの更新ごとに実行されるイベントを追加
     Events.on(engine, 'afterUpdate', function () {
         // 描画コンテキストを取得
@@ -103,6 +114,6 @@ $('#add-ball').click(function () {
         context.fillStyle = 'black';
 
         // テキストを図形の位置に描画
-        context.fillText('wow', newShape.position.x, newShape.position.y);
+        context.fillText(message, newShape.position.x, newShape.position.y);
     });
 });
