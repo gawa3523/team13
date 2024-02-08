@@ -45,7 +45,7 @@
 
   <button id="clickButton" onclick="increaseScore()">Click me!</button>
   <button id="scoreCost" onclick="scoreCost()">10ポイント消費</button>
-  <p id="score">次の消費ポイント: <span id="currentScore">10</span></p>
+  <p id="score">Score: <span id="currentScore">0</span></p>
 
   <script>
     // JavaScriptでスコアを管理する変数
@@ -56,8 +56,8 @@
     // クリック時にスコアを増加させる関数
     function increaseScore() {
       score += point;
+      document.getElementById('currentScore').innerText = score; // ここでスコアを表示
       document.getElementById('add-ball').disabled = score < 100;
-      document.getElementById('currentScore').innerText = 10 * point;
       document.getElementById('scoreCost').innerText = 10 * point + "ポイント消費";
     }
 
@@ -66,7 +66,7 @@
       if (score >= 10 * point) {
         score -= 10 * point;
         point++;
-        document.getElementById('currentScore').innerText = 10 * point;
+        document.getElementById('currentScore').innerText = score; // ここでスコアを表示
         document.getElementById('scoreCost').innerText = 10 * point + "ポイント消費";
         if (score < 10) {
           //document.getElementById('scoreCost').style.display = 'none';
@@ -75,9 +75,17 @@
         document.getElementById('add-ball').disabled = score < 100;
       }
     }
+    // wowボタンをクリック時にスコアを減らす関数
+    function decreaseScore() {
+      if (score >= 100) {
+        score -= 100;
+        document.getElementById('currentScore').innerText = score; // ここでスコアを表示
+        document.getElementById('add-ball').disabled = score < 100;
+      }
+    }
   </script>
   <div id="canvas-area"></div>
-  <button id="add-ball">wow</button>
+  <button id="add-ball" onclick="decreaseScore()">wow</button>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="./matter.js"></script>
   <!-- 以下、各例のjsファイルをscriptタグで読み込む -->
