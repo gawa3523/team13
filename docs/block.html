@@ -17,6 +17,44 @@
             margin: auto;
             background-color: #eee;
         }
+
+        #shop {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        #shop button {
+            margin-bottom: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #0095DD;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #shop button:hover {
+            background-color: #0077B6;
+        }
+
+        #startButton {
+            margin-bottom: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #0095DD;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #startButton:hover {
+            background-color: #0077B6;
+        }
     </style>
 </head>
 
@@ -24,15 +62,33 @@
     <canvas id="gameCanvas" width="800" height="600"></canvas>
     <button id="startButton">Start Game</button>
 
+    <div id="shop">
+        <button id="randomBlockDestroyButton">Random Block Destroy (Cost: 5)</button><br>
+        <button id="paddleExtendButton">Extend Paddle (Cost: 15)</button><br>
+        <button id="PenetratingBallButton">Penetrating Ball (Cost: 25)</button>
+    </div>
+
     <script>
+        var clear = localStorage.getItem("clear") || 0;
         var canvas = document.getElementById("gameCanvas");
         var ctx = canvas.getContext("2d");
 
+        var startPositions = [
+            { x: canvas.width / 4, y: canvas.height - 30 },  // 左寄り
+            { x: canvas.width / 2, y: canvas.height - 30 },  // 中央
+            { x: 3 * canvas.width / 4, y: canvas.height - 30 },  // 右寄り
+            { x: 3 * canvas.width / 4, y: canvas.height - 75 },
+            { x: canvas.width / 4, y: canvas.height - 75 },
+            { x: canvas.width / 2, y: canvas.height - 120 },
+        ];
+
+        var startPosition = startPositions[Math.floor(Math.random() * startPositions.length)];
+
         var ballRadius = 10;
-        var x = canvas.width / 2;
-        var y = canvas.height - 30;
-        var dx = 2;
-        var dy = -2;
+        var x = startPosition.x;
+        var y = startPosition.y;
+        var dx = 2 + (0.4 * clear);
+        var dy = -2 - (0.4 * clear);;
 
         var paddleHeight = 10;
         var paddleWidth = 75;
@@ -52,6 +108,7 @@
         var brickOffsetTop = 30;
         var brickOffsetLeft = 30;
         var bricks = [];
+        var item = 1;
         for (var c = 0; c < brickColumnCount; c++) {
             bricks[c] = [];
             for (var r = 0; r < brickRowCount; r++) {
@@ -97,12 +154,12 @@
             ctx.closePath();
         }
 
-        var score = 0;
+        var score = localStorage.getItem("score") || 0;;
 
         function drawScore() {
             ctx.font = "16px Arial";
             ctx.fillStyle = "#0095DD";
-            ctx.fillText("Score: " + score, 8, 20); // スコアを描画する位置を指定します
+            ctx.fillText("Score: " + score, 8, 20);
         }
 
         function draw() {
@@ -128,8 +185,9 @@
                     y = canvas.height - 30;
                     paddleX = (canvas.width - paddleWidth) / 2;
                     alert("Game Over");
+                    localStorage.setItem("score", 0);
+                    localStorage.setItem("clear", 0);
                     document.location.reload();
-                    //document.getElementById("startButton").style.display = "block";
                 }
             }
 
@@ -165,10 +223,15 @@
                     var b = bricks[c][r];
                     if (b.status == 1) {
                         if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-                            dy = -dy;
+                            if (item == 1) {
+                                dy = -dy;
+                            }
                             b.status = 0;
-                            score++; // 得点を加算
+                            score++;
+                            localStorage.setItem("score", score);
                             if (score == brickRowCount * brickColumnCount) {
+                                clear += 1;
+                                localStorage.setItem("clear", clear);
                                 alert("Congratulations! You cleared all the bricks!");
                                 document.location.reload();
                             }
@@ -178,10 +241,6 @@
             }
         }
 
-        document.addEventListener("keydown", keyDownHandler, false);
-        document.addEventListener("keyup", keyUpHandler, false);
-        document.getElementById("startButton").addEventListener("click", startGame);
-
         function startGame() {
             if (!gameStarted) {
                 gameStarted = true;
@@ -189,6 +248,52 @@
                 interval = setInterval(draw, 10);
             }
         }
+
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+        document.getElementById("startButton").addEventListener("click", startGame);
+
+
+        document.getElementById("PenetratingBallButton").addEventListener("click", function () {
+            if (score >= 25) {
+                item += 5;
+                score -= 25;
+                localStorage.setItem("score", score);
+                setTimeout(function () {
+                    item -= 5;
+                }, 5000);
+            } else {
+                console.log("You don't have enough score to buy this item!");
+            }
+        });
+
+        document.getElementById("paddleExtendButton").addEventListener("click", function () {
+            if (score >= 15) {
+                paddleWidth += 30;
+                score -= 15;
+                localStorage.setItem("score", score);
+            } else {
+                console.log("You don't have enough score to buy this item!");
+            }
+        });
+
+
+        document.getElementById("randomBlockDestroyButton").addEventListener("click", function () {
+            if (score >= 5) {
+                for (var i = 0; i < 5; i++) {
+                    var randomColumn = Math.floor(Math.random() * brickColumnCount);
+                    var randomRow = Math.floor(Math.random() * brickRowCount);
+                    if (bricks[randomColumn][randomRow].status == 1) {
+                        bricks[randomColumn][randomRow].status = 0;
+                    }
+                }
+                score -= 5;
+                localStorage.setItem("score", score);
+            } else {
+                console.log("You don't have enough score to buy this item!");
+            }
+        });
+
     </script>
 </body>
 
